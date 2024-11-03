@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { SessionProvider } from "./(auth)/login/_components/sessionProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +17,7 @@ export default function RootLayout({
       <body
         className="bg-primary text-primary-foreground flex justify-center items-center min-h-screen"
       >
-        {children}
+         <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 "use server"
 
 import * as z from 'zod'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { RegisterUserSchema } from './registerUserSchema'
 import { prisma } from '@/src/features/prisma/prismaClient'
 
@@ -27,7 +27,7 @@ const register = async (values: z.infer<typeof RegisterUserSchema>) => {
         return {error: "Email already in use"}
     }
 
-    const hashedPassword = await bcrypt.hash(values.password, 10)
+    const hashedPassword = await bcrypt.hash(password, 10)
 
     const user = await prisma.users.create({
         data: {

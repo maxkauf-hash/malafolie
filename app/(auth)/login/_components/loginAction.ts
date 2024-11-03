@@ -1,10 +1,15 @@
 "use server"
 
 import * as z from 'zod'
-import bcrypt from 'bcrypt'
+import 'server-only'
+import bcrypt from 'bcryptjs'
 import { prisma } from '@/src/features/prisma/prismaClient'
 import { LoginUserSchema } from './loginUserSchema';
-import { cookies } from 'next/headers';
+import { createSession, deleteSession } from './session';
+import { redirect } from 'next/navigation';
+
+
+const secret: string = process.env.SECRET_KEY!
 
 const login = async (values: z.infer<typeof LoginUserSchema>) => {
     const validateFields = LoginUserSchema.safeParse(values)
@@ -15,7 +20,7 @@ const login = async (values: z.infer<typeof LoginUserSchema>) => {
     
     const {email, password} = validateFields.data
 
-    const existingUser = await prisma.users.findFirst({where: {email}})
+    const existingUser = await prisma.users.findUnique({where: {email}})
 
     if(!existingUser) {
         return {error: "Please create an account"}
@@ -27,9 +32,14 @@ const login = async (values: z.infer<typeof LoginUserSchema>) => {
         return {error: "Invalid credentials"}
     }
 
-    const cookie = (await cookies()).set('auth', 'maxime')
+    const cookie = await createSession(existingUser.id)
 
-    return {success: "User successfully logged in"}
+    redirect('/profile')
+}
+
+export async function logout() {
+  await deleteSession()
+  redirect('/login')
 }
 
 export default login

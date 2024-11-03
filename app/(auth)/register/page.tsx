@@ -12,6 +12,7 @@ import { useState } from "react";
 
 export const LoginForm = () => {
     const [error, setError] = useState<string>("")
+    const [message, setMessage] = useState<string>("")
 
     const form = useForm<z.infer<typeof RegisterUserSchema>>({
         resolver: zodResolver(RegisterUserSchema),
@@ -21,22 +22,26 @@ export const LoginForm = () => {
             email: "",
             password: "",
             address: "",
-            zip: 0,
+            zip: "",
             city: "",
-            phone: 0
+            phone: ""
         }
     })
 
     const onSubmit = (values: z.infer<typeof RegisterUserSchema>) => {
+        setMessage("")
+        setError("")
+        
         register(values).then((data) => {
             if(data.error){
                 setError(data.error)
             }
+            setMessage("User successfully register")
         })
     }
   return (
     <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-1/4 bg-white p-2 rounded-md">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-1/4 bg-white p-2 rounded-md text-black">
             {error && <span className="text-red-500">{error}</span>}
             <div className="space-y-4">
                 <FormField control={form.control} name="firstName" render={({field}) => (
@@ -93,7 +98,7 @@ export const LoginForm = () => {
                     <FormItem>
                         <FormLabel>Postal code</FormLabel>
                         <FormControl>
-                            <Input {...field} placeholder="Postal Code..." type="number" />
+                            <Input {...field} placeholder="Postal Code..." type="text" />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
@@ -113,7 +118,7 @@ export const LoginForm = () => {
                     <FormItem>
                         <FormLabel>Phone</FormLabel>
                         <FormControl>
-                            <Input {...field} placeholder="Phone..." type="number" />
+                            <Input {...field} placeholder="Phone..." type="text" />
                         </FormControl>
                         <FormMessage />
                     </FormItem>

@@ -6,7 +6,7 @@ export const RegisterUserSchema = z.object({
     email: z.string().email(),
     password: z.string().min(8),
     address: z.string().min(10),
-    zip: z.number().min(6),
-    city: z.string().min(5),
-    phone: z.number().min(10)
+    zip: z.string().min(5),
+    city: z.string().min(2),
+    phone: z.string().min(10)
 })

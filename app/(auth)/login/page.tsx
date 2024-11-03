@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import login from "./_components/loginAction";
 import { useState } from "react";
+import { redirect } from "next/navigation";
 
 export const LoginForm = () => {
     const [error, setError] = useState<string>("")
@@ -26,11 +27,12 @@ export const LoginForm = () => {
             if(data.error){
                 setError(data.error)
             }
+            redirect('/profile')
         })
     }
   return (
     <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-1/4 bg-white p-2 rounded-md">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-1/4 bg-white p-2 rounded-md text-black">
             {error && <span className="text-red-500">{error}</span>}
             <div className="space-y-4">
                 <FormField control={form.control} name="email" render={({field}) => (
