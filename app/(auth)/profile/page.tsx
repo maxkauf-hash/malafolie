@@ -7,15 +7,13 @@ export const Profile = () => {
 
   if (loading) return <p>Chargement...</p>;
 
-  return user ? (
+  return (
     <div>
-      <h1>Profil de {user.firstName} {user.lastName}</h1>
-      <p>Email : {user.email}</p>
-      <p>Role : {user.role}</p>
+      <h1>Profil de {user?.firstName} {user?.lastName}</h1>
+      <p>Email : {user?.email}</p>
+      <p>Role : {user?.role}</p>
       {/* Autres informations utilisateur */}
     </div>
-  ) : (
-    <p>Veuillez vous connecter pour accéder à cette page.</p>
   );
 }
 
