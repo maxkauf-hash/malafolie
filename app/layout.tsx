@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className="bg-primary text-primary-foreground flex justify-center items-center min-h-screen"
+        className="flex justify-center items-center min-h-screen bg-primary"
       >
          <SessionProvider>{children}</SessionProvider>
       </body>
